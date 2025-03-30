@@ -1,13 +1,7 @@
-import { ThemeProvider } from "@mui/material";
-import Home from "./pages/Home";
-import { muiTheme } from "./theme/muiTheme.ts";
+import RouterApp from "./router/router.tsx";
 
 function App() {
-  return (
-    <ThemeProvider theme={muiTheme}>
-      <Home />
-    </ThemeProvider>
-  );
+  return <RouterApp />;
 }
 
 export default App;
