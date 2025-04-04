@@ -47,7 +47,8 @@ export const muiTheme = createTheme({
       light: "#edf0f3",
     },
     secondary: {
-      main: "#0a0a0a",
+      main: "#00000099",
+      light: "#0000FF",
     },
     error: {
       main: "#FF0000",
@@ -94,13 +95,13 @@ export const muiTheme = createTheme({
       fontFamily: "SemiBold",
     },
     h3: {
+      fontSize: 16,
+      fontFamily: "Medium",
+    },
+    h4: {
       fontSize: 13,
       fontFamily: "SemiBold",
       fontWeight: 500,
-    },
-    h4: {
-      fontSize: 16,
-      fontFamily: "Medium",
     },
     h5: {
       fontSize: 14,

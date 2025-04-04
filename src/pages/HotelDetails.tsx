@@ -27,7 +27,6 @@ const HotelDetails = () => {
   const getRoomCategories = async () => {
     if (!id) return;
     const hotelDetails = await fetchHotelById(parseInt(id, 10));
-    console.log(hotelDetails, "hotelDetails");
     if (hotelDetails) {
       setHotel(hotelDetails);
     }

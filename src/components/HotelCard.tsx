@@ -1,123 +1,123 @@
-import { useMediaQuery, Box, Typography, Button } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
+import {
+  Box,
+  Grid,
+  Typography,
+  Card,
+  CardMedia,
+  CardContent,
+  useTheme,
+} from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { mockData } from "../pages/Hotels";
 
-interface HotelCardProps {
-  id: number;
-  image: string;
-  name: string;
-  location: string;
-  price: string;
-  rating: string;
-}
-
-const HotelCard: React.FC<HotelCardProps> = ({
-  id,
-  image,
-  name,
-  location,
-  price,
-  rating,
-}) => {
+const HotelCard = (props: any) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const isNotDesktop = useMediaQuery(theme.breakpoints.down("md"));
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate(`/hotels/${id}`);
-  };
-
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: isMobile ? "column" : "row",
-        justifyContent: isMobile
-          ? ""
-          : isNotDesktop
-          ? "space-between"
-          : "space-between",
-
-        cursor: "pointer",
-        margin: "16px 0px",
-        padding: 2,
-        borderRadius: 2,
-        border: "1px solid #ddd",
-        boxShadow: "0px 2px 8px rgba(0,0,0,0.1)",
-        transition: "0.3s",
-        "&:hover": {
-          boxShadow: "0px 4px 12px rgba(0,0,0,0.2)",
-        },
-      }}
-      onClick={handleClick}
-    >
-      <Box display={"flex"} flexDirection={isMobile ? "column" : "row"}>
-        <Box
-          component="img"
-          src={image}
-          alt={name}
-          sx={{
-            width: isMobile ? "100%" : 200,
-            height: 150,
-            objectFit: "cover",
-            borderRadius: 2,
-          }}
-        />
-        <Box padding={2} display={"flex"} flexDirection={"column"} gap={1}>
-          <Typography variant={isMobile ? "h6" : isNotDesktop ? "h4" : "h4"}>
-            {name}
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            {location}
-          </Typography>
-          <Box>
-            <Typography
-              border={"1px solid grey"}
-              variant="body2"
-              color="textSecondary"
-              sx={{
-                display: "inline-block",
-                padding: "4px 8px",
-                borderRadius: 1,
-              }}
-            >
-              Restaurent
-            </Typography>
-          </Box>
-        </Box>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <Box sx={{ width: "100%", maxWidth: "1800px", mx: "auto", p: 2 }}>
+        <>
+          <Grid container spacing={2}>
+            {mockData.map((property) => (
+              <Grid item xs={12} sm={6} md={6} lg={4} key={property.id}>
+                <Card
+                  sx={{
+                    boxShadow: 2,
+                    cursor: "pointer",
+                    height: "100%",
+                    width: "100%",
+                  }}
+                  onClick={() => props.handleCardClick()}
+                >
+                  <CardMedia
+                    component="img"
+                    image={property.image}
+                    alt={property.name}
+                    sx={{
+                      width: "100%",
+                      height: { xs: 180, sm: 200 },
+                      objectFit: "cover",
+                    }}
+                  />
+                  <CardContent>
+                    <Typography
+                      sx={{
+                        fontSize: theme.typography.subtitle2,
+                      }}
+                      fontWeight="bold"
+                    >
+                      {property.name} ★★★☆☆
+                    </Typography>
+                    <Typography
+                      sx={{
+                        color: theme.palette.primary.main,
+                        fontSize: theme.typography.subtitle2.fontSize,
+                      }}
+                    >
+                      {property.location}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        color: theme.palette.secondary.main,
+                        fontSize: theme.typography.h6,
+                        mb: 1,
+                      }}
+                    >
+                      {property.description}
+                    </Typography>
+                    <Box
+                      display="flex"
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
+                      <Typography
+                        sx={{
+                          fontSize: theme.typography.h5,
+                          color: theme.palette.secondary.light,
+                        }}
+                      >
+                        Very Good {property.rating} ⭐ ({property.reviews}{" "}
+                        Ratings)
+                      </Typography>
+                      <Box textAlign="right">
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            textDecoration: "line-through",
+                            fontSize: theme.typography.h6.fontSize,
+                            color: theme.palette.secondary.main,
+                          }}
+                        >
+                          {property.oldPrice}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            color: theme.typography.subtitle2.color,
+                            fontSize: theme.typography.h6.fontSize,
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {property.newPrice}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            fontSize: theme.typography.h6.fontSize,
+                            color: theme.palette.secondary.main,
+                          }}
+                        >
+                          {property.taxes} Per Night
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </>
       </Box>
-      <Box
-        sx={{ padding: 2 }}
-        display={"flex"}
-        flexDirection={"column"}
-        gap={1.4}
-      >
-        <Typography
-          variant="body2"
-          color={theme.palette.primary.main}
-          fontWeight={"bold"}
-        >
-          {rating}
-        </Typography>
-        <Typography
-          variant={isMobile ? "h6" : isNotDesktop ? "h4" : "h4"}
-          fontWeight={"bold"}
-        >
-          {price}
-        </Typography>
-
-        <Button
-          variant="contained"
-          sx={{
-            textTransform: "capitalize",
-            fontSize: "12px",
-          }}
-        >
-          See Availability
-        </Button>
-      </Box>
-    </Box>
+    </LocalizationProvider>
   );
 };
 

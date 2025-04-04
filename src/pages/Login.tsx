@@ -71,23 +71,19 @@ const Login = () => {
           }}
         >
           <Logo />
-          <Box width={"100%"}>
-            <TextField
-              fullWidth
-              label="Agent Code"
-              name="agentCode"
-              value={formData.agentCode}
-              onChange={handleChange}
-            />
-          </Box>
 
           <Box width={"100%"}>
             <TextField
               fullWidth
               label="Username"
-              name="username"
+              name="loginName"
               value={formData.username}
               onChange={handleChange}
+              sx={{
+                "& .MuiInputBase-input": {
+                  fontSize: theme.typography.subtitle2,
+                },
+              }}
             />
           </Box>
 
@@ -99,6 +95,25 @@ const Login = () => {
               type="password"
               value={formData.password}
               onChange={handleChange}
+              sx={{
+                "& .MuiInputBase-input": {
+                  fontSize: theme.typography.subtitle2,
+                },
+              }}
+            />
+          </Box>
+          <Box width={"100%"}>
+            <TextField
+              fullWidth
+              label="LoginType"
+              name="loginType"
+              value={formData.agentCode}
+              onChange={handleChange}
+              sx={{
+                "& .MuiInputBase-input": {
+                  fontSize: theme.typography.subtitle2,
+                },
+              }}
             />
           </Box>
           <Box width={"100%"} mt={2}>

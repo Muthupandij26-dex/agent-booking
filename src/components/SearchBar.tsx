@@ -58,7 +58,16 @@ const SearchBar = () => {
           gap: 2,
         }}
       >
-        <Typography variant={isMobile ? "h2" : isNotDesktop ? "h5" : "h2"}>
+        <Typography
+          sx={{
+            textAlign: isMobile ? "center" : isNotDesktop ? "" : "",
+            fontSize: isMobile
+              ? theme.typography.subtitle1
+              : isNotDesktop
+              ? theme.typography.h3
+              : theme.typography.h3,
+          }}
+        >
           Find Available Hotels
         </Typography>
 

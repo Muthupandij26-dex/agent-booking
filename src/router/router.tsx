@@ -3,8 +3,10 @@ import {
   RouterProvider,
   Navigate,
 } from "react-router-dom";
-import { Hotels, Login, WorkInProgress, HotelDetails } from "../pages";
+import { Hotels, Login, WorkInProgress } from "../pages";
 import Checkout from "../pages/Checkout";
+import RoomCategories from "../pages/RoomCategories";
+import { ProtectedRoute } from "../components";
 
 const router = createBrowserRouter([
   {
@@ -17,11 +19,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/hotels",
-    element: <Hotels />,
+    element: <ProtectedRoute element={<Hotels />} />,
   },
+  // {
+  //   path: "/hotels/:id", // Dynamic route for hotel details
+  //   element: <HotelDetails />,
+  // },
   {
-    path: "/hotels/:id", // Dynamic route for hotel details
-    element: <HotelDetails />,
+    path: "/roomCategories",
+    element: <ProtectedRoute element={<RoomCategories />} />,
   },
   {
     path: "/unauthorized",

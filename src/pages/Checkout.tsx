@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { AddCircle, RemoveCircle } from "@mui/icons-material";
 import { useState } from "react";
+import SearchBar from "../components/SearchBar";
 
 const CheckoutPage = () => {
   const theme = useTheme();
@@ -71,6 +72,7 @@ const CheckoutPage = () => {
 
   return (
     <Box sx={{ padding: 3 }}>
+      <SearchBar />
       <Typography
         sx={{ textAlign: isMobile ? "center" : "" }}
         variant={isMobile ? "h4" : "h2"}
