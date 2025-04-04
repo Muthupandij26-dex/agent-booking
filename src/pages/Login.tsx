@@ -3,15 +3,33 @@ import { Button } from "../components";
 import Logo from "../components/Logo";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUserDetails } from "../reducers/userSlice";
+import { UseApi, UseAuth } from "../hooks";
+
+type LoginResponseType = {
+  agentCode: string;
+  name: string;
+  kycStatus: string;
+  accessToken: string;
+};
 
 const Login = () => {
   const navigate = useNavigate();
   const theme = useTheme();
+  const dispatch = useDispatch();
+
+  const { apiCall } = UseApi<LoginResponseType>();
+  const { setToken, setKYCStatus } = UseAuth();
   const isNotDesktop = useMediaQuery(theme.breakpoints.down("md"));
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [formData, setFormData] = useState({
-    agentCode: "",
+    username: "",
+    password: "",
+  });
+
+  const [errors, setErrors] = useState({
     username: "",
     password: "",
   });
@@ -22,16 +40,60 @@ const Login = () => {
       ...prev,
       [name]: value,
     }));
+
+    setErrors((prev) => ({
+      ...prev,
+      [name]: "",
+    }));
   };
 
-  const handleLogin = () => {
-    console.log("Login Data:", formData);
-    navigate("/hotels");
-    // if (formData.agentCode && formData.username && formData.password) {
-    //   console.log("Login Data:", formData);
-    // } else {
-    //   alert("Please fill in all fields!"); // Validation message
-    // }
+  const handleLogin = async () => {
+    const newErrors: any = {};
+
+    if (!formData.username) {
+      newErrors.username = "Username is required";
+    }
+
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+    }
+
+    setErrors(newErrors);
+
+    // If no errors, proceed
+    if (Object.keys(newErrors).length === 0) {
+      console.log("Submit form:", formData);
+      await apiCall({
+        loaderDuration: 2000,
+        loaderMessage: "Please wait we are logging you in...",
+        method: "post",
+        url: "/agent/auth/login",
+        data: {
+          loginName: formData.username,
+          password: formData.password,
+          loginType: "agent",
+        },
+        onSuccess: (data: LoginResponseType) => {
+          setToken(data.accessToken);
+          setKYCStatus(data.kycStatus);
+          dispatch(
+            setUserDetails({
+              agentCode: data.agentCode,
+              name: data.name,
+              kycStatus: data.kycStatus,
+            }),
+          );
+          if (data.kycStatus === "PENDING") {
+            navigate("/kycDetails");
+          } else {
+            navigate("/hotels");
+          }
+        },
+        onError: (error) => {
+          console.error("Error fetching data:", error);
+        },
+      });
+    }
   };
 
   return (
@@ -76,9 +138,11 @@ const Login = () => {
             <TextField
               fullWidth
               label="Username"
-              name="loginName"
+              name="username"
               value={formData.username}
               onChange={handleChange}
+              error={!!errors.username}
+              helperText={errors.username}
               sx={{
                 "& .MuiInputBase-input": {
                   fontSize: theme.typography.subtitle2,
@@ -95,6 +159,8 @@ const Login = () => {
               type="password"
               value={formData.password}
               onChange={handleChange}
+              error={!!errors.password}
+              helperText={errors.password}
               sx={{
                 "& .MuiInputBase-input": {
                   fontSize: theme.typography.subtitle2,
@@ -102,7 +168,7 @@ const Login = () => {
               }}
             />
           </Box>
-          <Box width={"100%"}>
+          {/* <Box width={"100%"}>
             <TextField
               fullWidth
               label="LoginType"
@@ -115,7 +181,7 @@ const Login = () => {
                 },
               }}
             />
-          </Box>
+          </Box> */}
           <Box width={"100%"} mt={2}>
             <Button variant="primary" label="LOGIN" onClick={handleLogin} />
           </Box>

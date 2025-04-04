@@ -6,7 +6,7 @@ const instance = axios.create({
 
 
 const getTokenFromSessionStorage = () => {
-  const token = sessionStorage.getItem("hms-access-token");
+  const token = sessionStorage.getItem("agentBooking-access-token");
   const sanitizedToken = token ? token.replace(/"/g, "") : "";
   return sanitizedToken;
 };

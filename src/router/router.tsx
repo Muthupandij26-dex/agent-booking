@@ -21,6 +21,10 @@ const router = createBrowserRouter([
     path: "/hotels",
     element: <ProtectedRoute element={<Hotels />} />,
   },
+  {
+    path: "/kycDetails",
+    element: <h1>Agent must complete KYC Details</h1>,
+  },
   // {
   //   path: "/hotels/:id", // Dynamic route for hotel details
   //   element: <HotelDetails />,
