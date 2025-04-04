@@ -21,12 +21,12 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUserDetails(state, action: PayloadAction<UserDetailsType>) {
-      state.agentCode=action.payload.agentCode;
+      state.agentCode = action.payload.agentCode;
       state.name = action.payload.name;
       state.kycStatus = action.payload.kycStatus;
     },
     clearUserDetails(state) {
-      state.agentCode="";
+      state.agentCode = "";
       state.kycStatus = "";
       state.name = "";
     },

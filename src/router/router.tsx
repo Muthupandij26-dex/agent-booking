@@ -7,6 +7,7 @@ import { Hotels, Login, WorkInProgress } from "../pages";
 import Checkout from "../pages/Checkout";
 import RoomCategories from "../pages/RoomCategories";
 import { ProtectedRoute } from "../components";
+import KycPage from "../pages/kyc/KycPage";
 
 const router = createBrowserRouter([
   {
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/kycDetails",
-    element: <h1>Agent must complete KYC Details</h1>,
+    element: <KycPage />,
   },
   // {
   //   path: "/hotels/:id", // Dynamic route for hotel details
