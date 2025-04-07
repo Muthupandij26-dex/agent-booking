@@ -1,8 +1,4 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Navigate,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Hotels, Login, WorkInProgress } from "../pages";
 import Checkout from "../pages/Checkout";
 import RoomCategories from "../pages/RoomCategories";
@@ -12,7 +8,7 @@ import KycPage from "../pages/kyc/KycPage";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Navigate to="/login" replace />,
+    element: <WorkInProgress />,
   },
   {
     path: "/login",

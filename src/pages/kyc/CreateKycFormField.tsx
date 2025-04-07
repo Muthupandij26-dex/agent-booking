@@ -9,8 +9,18 @@ export const createGeneralFormFields = (gridColumns: number): FormField[] => {
       type: "textfield",
       gridColumns: gridColumns,
       rules: {
-        required: "",
+        required: "Name is required",
       },
+    },
+    {
+      name: "mobile",
+      label: "Mobile",
+      type: "textfield",
+      defaultValue: "",
+      rules: {
+        required: "Mobile is required",
+      },
+      gridColumns: gridColumns,
     },
     {
       name: "email",
@@ -20,16 +30,6 @@ export const createGeneralFormFields = (gridColumns: number): FormField[] => {
       rules: {
         required: "",
       },
-    },
-    {
-      name: "mobile",
-      label: "Mobile",
-      type: "textfield",
-      defaultValue: "",
-      rules: {
-        required: "",
-      },
-      gridColumns: gridColumns,
     },
     {
       name: "street",
@@ -128,7 +128,7 @@ export const createCredentialsFormFields = (
   return [
     {
       name: "loginName",
-      label: "User Name",
+      label: " New User Name",
       type: "textfield",
       gridColumns: gridColumns,
       rules: {
@@ -137,7 +137,7 @@ export const createCredentialsFormFields = (
     },
     {
       name: "password",
-      label: "Password",
+      label: "New Password",
       type: "textfield",
       gridColumns: gridColumns,
       rules: {

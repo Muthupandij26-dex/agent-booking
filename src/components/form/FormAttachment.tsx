@@ -28,12 +28,13 @@ const FormAttachment = ({
         <>
           <FormControl fullWidth>
             <FormLabel
-              sx={{
+              sx={(theme) => ({
                 justifyContent: "left",
                 gap: "0.5rem",
                 marginBottom: "0.3125rem",
-                fontSize: theme.typography.subtitle2,
-              }}
+                fontSize: theme.typography.subtitle2.fontSize,
+                color: "#00000099",
+              })}
             >
               {label}
               {rules?.required && (

@@ -6,6 +6,7 @@ import {
   CardContent,
   LinearProgress,
   MobileStepper,
+  Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
@@ -104,13 +105,11 @@ const KycPage = () => {
       },
       loaderMessage: "Updating KYC...",
     });
-
-    console.log("Payload", payload);
   };
 
   return (
     <Box sx={{ maxWidth: { xs: "100%", md: 900 }, mx: "auto", p: 2 }}>
-      <Card sx={{ p: 2, boxShadow: 3 }}>
+      <Card sx={{ p: 2, boxShadow: theme.custom.boxshadow }}>
         <CardContent>
           {/* Progress Bar */}
           <LinearProgress
@@ -121,30 +120,67 @@ const KycPage = () => {
 
           <Box sx={{ p: 2 }}>
             {activeStep === 0 && (
-              <FormBuilder
-                control={control}
-                formFields={() => createGeneralFormFields(gridColumns)}
-                errors={errors}
-                gridColumns={gridColumns}
-              />
+              <>
+                <Typography
+                  sx={{
+                    mb: 2,
+                    textAlign: isMobile ? "center" : "left",
+                    fontSize: theme.typography.h3,
+                    color: theme.palette.primary.main,
+                  }}
+                >
+                  General Details
+                </Typography>
+                <FormBuilder
+                  control={control}
+                  formFields={() => createGeneralFormFields(gridColumns)}
+                  errors={errors}
+                  gridColumns={gridColumns}
+                />
+              </>
             )}
             {activeStep === 1 && (
-              <FormBuilder
-                control={control}
-                formFields={() =>
-                  createkycDocumentsFormFields(gridColumns, setValue)
-                }
-                errors={errors}
-                gridColumns={gridColumns}
-              />
+              <>
+                <Typography
+                  sx={{
+                    mb: 2,
+                    textAlign: isMobile ? "center" : "left",
+                    fontSize: theme.typography.h3,
+                    color: theme.palette.primary.main,
+                  }}
+                >
+                  KYC Details
+                </Typography>
+
+                <FormBuilder
+                  control={control}
+                  formFields={() =>
+                    createkycDocumentsFormFields(gridColumns, setValue)
+                  }
+                  errors={errors}
+                  gridColumns={gridColumns}
+                />
+              </>
             )}
             {activeStep === 2 && (
-              <FormBuilder
-                control={control}
-                formFields={() => createCredentialsFormFields(gridColumns)}
-                errors={errors}
-                gridColumns={gridColumns}
-              />
+              <>
+                <Typography
+                  sx={{
+                    mb: 2,
+                    textAlign: isMobile ? "center" : "left",
+                    fontSize: theme.typography.h3,
+                    color: theme.palette.primary.main,
+                  }}
+                >
+                  Login Details
+                </Typography>
+                <FormBuilder
+                  control={control}
+                  formFields={() => createCredentialsFormFields(gridColumns)}
+                  errors={errors}
+                  gridColumns={gridColumns}
+                />
+              </>
             )}
           </Box>
 
@@ -159,7 +195,7 @@ const KycPage = () => {
                   size="small"
                   onClick={handleSubmit}
                   variant="contained"
-                  color="success"
+                  color="primary"
                 >
                   Submit
                 </Button>

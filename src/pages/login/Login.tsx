@@ -1,29 +1,14 @@
-import { Box, TextField, useMediaQuery, useTheme } from "@mui/material";
-import { Button } from "../components";
-import Logo from "../components/Logo";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
+import { Button } from "../../components";
+import Logo from "../../components/Logo";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setUserDetails } from "../reducers/userSlice";
-import { UseApi, UseAuth } from "../hooks";
+import { setUserDetails } from "../../reducers/userSlice";
+import { UseApi, UseAuth } from "../../hooks";
+import { LoginResponseType, UserFormErrors } from "./login.type";
+import DexInput from "../../components/Input";
 
-type LoginResponseType = {
-  agentCode: string;
-  name: string;
-  kycStatus: string;
-  accessToken: string;
-  agentDetails: {
-    agentCode: string;
-    name: string;
-    kycStatus: string;
-    id: string;
-  };
-};
-type UserFormErrors = {
-  username?: string;
-  email?: string;
-  password?: string;
-};
 const Login = () => {
   const navigate = useNavigate();
   const theme = useTheme();
@@ -44,6 +29,8 @@ const Login = () => {
     password: "",
   });
 
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -58,6 +45,8 @@ const Login = () => {
   };
 
   const handleLogin = async () => {
+    setIsSubmitted(true);
+
     const newErrors: UserFormErrors = {};
 
     if (!formData.username) {
@@ -70,7 +59,6 @@ const Login = () => {
 
     setErrors(newErrors);
 
-    // If no errors, proceed
     if (Object.keys(newErrors).length === 0) {
       await apiCall({
         loaderDuration: 2000,
@@ -94,6 +82,7 @@ const Login = () => {
               id: data.agentDetails.id,
             }),
           );
+
           if (data.agentDetails.kycStatus === "PENDING") {
             navigate("/kycDetails");
           } else {
@@ -146,53 +135,32 @@ const Login = () => {
           <Logo />
 
           <Box width={"100%"}>
-            <TextField
-              fullWidth
+            <DexInput
               label="Username"
               name="username"
               value={formData.username}
-              onChange={handleChange}
-              error={!!errors.username}
-              helperText={errors.username}
-              sx={{
-                "& .MuiInputBase-input": {
-                  fontSize: theme.typography.subtitle2,
-                },
-              }}
+              required={true}
+              handleChange={handleChange}
+              errorMessage={
+                isSubmitted && errors.username ? errors.username : ""
+              }
             />
           </Box>
 
           <Box width={"100%"}>
-            <TextField
-              fullWidth
+            <DexInput
               label="Password"
               name="password"
-              type="password"
               value={formData.password}
-              onChange={handleChange}
-              error={!!errors.password}
-              helperText={errors.password}
-              sx={{
-                "& .MuiInputBase-input": {
-                  fontSize: theme.typography.subtitle2,
-                },
-              }}
+              required={true}
+              isPassword={true}
+              handleChange={handleChange}
+              errorMessage={
+                isSubmitted && errors.password ? errors.password : ""
+              }
             />
           </Box>
-          {/* <Box width={"100%"}>
-            <TextField
-              fullWidth
-              label="LoginType"
-              name="loginType"
-              value={formData.agentCode}
-              onChange={handleChange}
-              sx={{
-                "& .MuiInputBase-input": {
-                  fontSize: theme.typography.subtitle2,
-                },
-              }}
-            />
-          </Box> */}
+
           <Box width={"100%"} mt={2}>
             <Button variant="primary" label="LOGIN" onClick={handleLogin} />
           </Box>

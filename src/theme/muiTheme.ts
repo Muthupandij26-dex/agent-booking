@@ -123,7 +123,7 @@ export const muiTheme = createTheme({
   },
 
   custom: {
-    boxshadow: "0px 0px 10px 0px rgba(206, 187, 187, 0.1)",
+    boxshadow: "0 1px 6px 0 rgb(0 0 0 / 20%)",
     linearGradient:
       "linear-gradient(312deg, rgba(237,240,243,1) 26%, rgba(245,248,249,1) 49%)",
     sidebarShadow: "0px 0px 10px 0px rgba(248, 248, 248, 0.1)",
