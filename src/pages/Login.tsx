@@ -12,6 +12,12 @@ type LoginResponseType = {
   name: string;
   kycStatus: string;
   accessToken: string;
+  agentDetails: {
+    agentCode: string;
+    name: string;
+    kycStatus: string;
+    id: string;
+  };
 };
 
 const Login = () => {
@@ -78,12 +84,13 @@ const Login = () => {
           setKYCStatus(data.kycStatus);
           dispatch(
             setUserDetails({
-              agentCode: data.agentCode,
-              name: data.name,
-              kycStatus: data.kycStatus,
+              agentCode: data.agentDetails.agentCode,
+              name: data.agentDetails.name,
+              kycStatus: data.agentDetails.kycStatus,
+              id: data.agentDetails.id,
             }),
           );
-          if (data.kycStatus === "PENDING") {
+          if (data.agentDetails.kycStatus === "PENDING") {
             navigate("/kycDetails");
           } else {
             navigate("/hotels");

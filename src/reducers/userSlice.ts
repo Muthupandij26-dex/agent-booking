@@ -4,16 +4,19 @@ export type UserDetailsType = {
   agentCode: string;
   name: string;
   kycStatus: string;
+  id: string;
 };
 
 const initialState: {
   agentCode: string;
   name: string;
   kycStatus: string;
+  id: string;
 } = {
   agentCode: "",
   name: "",
   kycStatus: "",
+  id: "",
 };
 
 export const userSlice = createSlice({
@@ -24,11 +27,13 @@ export const userSlice = createSlice({
       state.agentCode = action.payload.agentCode;
       state.name = action.payload.name;
       state.kycStatus = action.payload.kycStatus;
+      state.id = action.payload.id;
     },
     clearUserDetails(state) {
       state.agentCode = "";
       state.kycStatus = "";
       state.name = "";
+      state.id = "";
     },
   },
 });

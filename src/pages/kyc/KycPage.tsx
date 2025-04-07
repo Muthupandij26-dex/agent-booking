@@ -18,6 +18,8 @@ import {
   createGeneralFormFields,
   createkycDocumentsFormFields,
 } from "./CreateKycFormField";
+import { useSelector } from "react-redux";
+import { RootState } from "../../reducers";
 
 const steps = ["Personal Details", "KYC Documents", "Credentials"];
 
@@ -27,6 +29,9 @@ const KycPage = () => {
     getValues,
     formState: { errors },
   } = useForm({ mode: "all" });
+  const agentDetails = useSelector((state: RootState) => state.userReducer);
+
+  console.log("User Details", agentDetails.id);
 
   const { apiCall } = UseApi<any>();
 
@@ -80,8 +85,8 @@ const KycPage = () => {
 
     await apiCall({
       method: "put",
-      url: "client/agent/creation",
-      id: "82038556-7833-4696-948e-1e20c1744923",
+      url: "agent/creation",
+      id: agentDetails.id,
       data: payload,
       onSuccess: () => {},
       loaderMessage: "Updating KYC...",
