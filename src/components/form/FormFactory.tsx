@@ -7,6 +7,7 @@ import FormInputArea from "./FormInputArea";
 import FormSwitch from "./FormSwitch";
 import FormSelect from "./FormSelect";
 import FormMultiSelectInput from "./FormMultiSelect";
+import FormAttachment from "./FormAttachment";
 
 const FormFactory = (props: FormFactoryProps): JSX.Element => {
   const renderFormElements = (formFields: FormFactoryProps) => {
@@ -75,6 +76,15 @@ const FormFactory = (props: FormFactoryProps): JSX.Element => {
       case "checkbox":
         return (
           <FormCheckBox
+            {...formFields}
+            control={props.control}
+            errors={props.errors}
+            rules={props.rules}
+          />
+        );
+      case "attachment":
+        return (
+          <FormAttachment
             {...formFields}
             control={props.control}
             errors={props.errors}

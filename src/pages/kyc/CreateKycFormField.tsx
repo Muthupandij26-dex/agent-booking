@@ -1,3 +1,4 @@
+import { FieldValues, UseFormSetValue } from "react-hook-form";
 import { FormField } from "../../components/form/FormBuilder.types";
 
 export const createGeneralFormFields = (gridColumns: number): FormField[] => {
@@ -80,6 +81,7 @@ export const createGeneralFormFields = (gridColumns: number): FormField[] => {
 
 export const createkycDocumentsFormFields = (
   gridColumns: number,
+  setValue: UseFormSetValue<FieldValues>,
 ): FormField[] => {
   return [
     {
@@ -109,8 +111,10 @@ export const createkycDocumentsFormFields = (
     {
       name: "documentFileUrl",
       label: "Document File",
-      type: "textfield",
-      gridColumns: gridColumns,
+      type: "attachment",
+      gridColumns: 12,
+      s3FolderName: "/proofs",
+      setValue: setValue,
       rules: {
         required: "",
       },

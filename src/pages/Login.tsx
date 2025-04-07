@@ -19,7 +19,11 @@ type LoginResponseType = {
     id: string;
   };
 };
-
+type UserFormErrors = {
+  username?: string;
+  email?: string;
+  password?: string;
+};
 const Login = () => {
   const navigate = useNavigate();
   const theme = useTheme();
@@ -35,7 +39,7 @@ const Login = () => {
     password: "",
   });
 
-  const [errors, setErrors] = useState({
+  const [errors, setErrors] = useState<UserFormErrors>({
     username: "",
     password: "",
   });
@@ -54,7 +58,7 @@ const Login = () => {
   };
 
   const handleLogin = async () => {
-    const newErrors: any = {};
+    const newErrors: UserFormErrors = {};
 
     if (!formData.username) {
       newErrors.username = "Username is required";
@@ -68,7 +72,6 @@ const Login = () => {
 
     // If no errors, proceed
     if (Object.keys(newErrors).length === 0) {
-      console.log("Submit form:", formData);
       await apiCall({
         loaderDuration: 2000,
         loaderMessage: "Please wait we are logging you in...",
@@ -81,7 +84,8 @@ const Login = () => {
         },
         onSuccess: (data: LoginResponseType) => {
           setToken(data.accessToken);
-          setKYCStatus(data.kycStatus);
+          setKYCStatus(data.agentDetails.kycStatus);
+
           dispatch(
             setUserDetails({
               agentCode: data.agentDetails.agentCode,

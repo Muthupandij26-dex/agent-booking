@@ -6,12 +6,11 @@ const useAuth = () => {
   const setKYCStatus = (status: string) => {
     sessionStorage.setItem("kycStatus", status);
   };
-  
+
   const getKYCStatus = () => {
-    if (sessionStorage.getItem("kycStatus") === "COMPLETED") {
-      return true
-    }
-    else {
+    if (sessionStorage.getItem("kycStatus") === "APPROVED") {
+      return true;
+    } else {
       return false;
     }
   };
@@ -30,9 +29,16 @@ const useAuth = () => {
 
   const isKycCompleted = () => {
     return !!getKYCStatus();
-  }
+  };
 
-  return { isAuthenticated, setToken, getToken, removeToken, setKYCStatus, isKycCompleted };
+  return {
+    isAuthenticated,
+    setToken,
+    getToken,
+    removeToken,
+    setKYCStatus,
+    isKycCompleted,
+  };
 };
 
 export default useAuth;

@@ -20,6 +20,10 @@ import {
 } from "./CreateKycFormField";
 import { useSelector } from "react-redux";
 import { RootState } from "../../reducers";
+import { AgentVerificationResponse } from "./kyc.type";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUserDetails } from "../../reducers/userSlice";
 
 const steps = ["Personal Details", "KYC Documents", "Credentials"];
 
@@ -27,13 +31,13 @@ const KycPage = () => {
   const {
     control,
     getValues,
+    setValue,
     formState: { errors },
   } = useForm({ mode: "all" });
+  const navegate = useNavigate();
   const agentDetails = useSelector((state: RootState) => state.userReducer);
-
-  console.log("User Details", agentDetails.id);
-
-  const { apiCall } = UseApi<any>();
+  const dispatch = useDispatch();
+  const { apiCall } = UseApi<AgentVerificationResponse>();
 
   const [activeStep, setActiveStep] = useState(0);
 
@@ -66,8 +70,7 @@ const KycPage = () => {
         city: formData.city,
         state: formData.state,
         zipCode: formData.zipCode,
-        kycStatus: "PENDING",
-        commissions: formData.commissions || "10%",
+        commissions: formData.commissions,
         status: "ACTIVE",
       },
       kycDocuments: [
@@ -88,7 +91,17 @@ const KycPage = () => {
       url: "agent/creation",
       id: agentDetails.id,
       data: payload,
-      onSuccess: () => {},
+      onSuccess: () => {
+        navegate("/hotels");
+        dispatch(
+          setUserDetails({
+            agentCode: agentDetails.agentCode,
+            name: agentDetails.name,
+            id: agentDetails.id,
+            kycStatus: "APPROVED",
+          }),
+        );
+      },
       loaderMessage: "Updating KYC...",
     });
 
@@ -118,7 +131,9 @@ const KycPage = () => {
             {activeStep === 1 && (
               <FormBuilder
                 control={control}
-                formFields={() => createkycDocumentsFormFields(gridColumns)}
+                formFields={() =>
+                  createkycDocumentsFormFields(gridColumns, setValue)
+                }
                 errors={errors}
                 gridColumns={gridColumns}
               />
