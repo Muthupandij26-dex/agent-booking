@@ -8,6 +8,7 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element }) => {
   const { isKycCompleted } = UseAuth();
+  console.log("Is KYC Completed", isKycCompleted);
 
   // useEffect(() => {
   //   if (isAuthenticated()) {

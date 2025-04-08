@@ -72,6 +72,7 @@ const KycPage = () => {
         state: formData.state,
         zipCode: formData.zipCode,
         commissions: formData.commissions,
+        kycStatus: "APPROVED",
         status: "ACTIVE",
       },
       kycDocuments: [
@@ -93,7 +94,7 @@ const KycPage = () => {
       id: agentDetails.id,
       data: payload,
       onSuccess: () => {
-        navegate("/hotels");
+        navegate("/login");
         dispatch(
           setUserDetails({
             agentCode: agentDetails.agentCode,
